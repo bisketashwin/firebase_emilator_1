@@ -42,19 +42,25 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  bool _emulator = true;
   late FirebaseFirestore db;
-  String host = Platform.isAndroid ? '10.0.2.2' : '127.0.0.1';
+  // String host = Platform.isAndroid ? '10.0.2.2' : '127.0.0.1';
+  String host = Platform.isAndroid ? '10.0.2.2' : 'localhost';
 
   @override
   void initState() {
     super.initState();
     db = FirebaseFirestore.instance;
-
-    // Initialize Firestore with emulator settings
-    db.useFirestoreEmulator(host, 8080, sslEnabled: false);
     db.settings = const Settings(
       persistenceEnabled: false,
     );
+
+    debugPrint(' Platform.isAndroid  ${Platform.isAndroid}');
+
+    if (_emulator) {
+      // Initialize Firestore with emulator settings
+      db.useFirestoreEmulator(host, 8080, sslEnabled: false);
+    }
   }
 
   @override
@@ -69,6 +75,21 @@ class _MyHomePageState extends State<MyHomePage> {
     });
     super.didChangeDependencies();
   }
+
+  // void onUseEmulatorChange(bool? value) {
+  //   if (value != null) {
+  //     setState(() {
+  //       _emulator = value;
+  //       // Reinitialize Firestore with the emulator or cloud settings
+  //       db = FirebaseFirestore.instance;
+
+  //       if (_emulator) {
+  //         db.useFirestoreEmulator(host, 8080);
+  //       }
+  //     });
+  //   }
+  //   super.didChangeDependencies();
+  // }
 
   void _incrementCounter() {
     setState(() {
@@ -100,6 +121,15 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
+            const SizedBox(
+              height: 100,
+            ),
+            // CheckboxListTile(
+            //   title: const Text('Enable Firebase Emulator'),
+            //   value: _emulator,
+            //   onChanged: onUseEmulatorChange,
+            //   controlAffinity: ListTileControlAffinity.trailing,
+            // ),
           ],
         ),
       ),

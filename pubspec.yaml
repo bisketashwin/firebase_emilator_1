@@ -28,9 +28,9 @@ flutter:
   uses-material-design: true
 #added this on suggesion from bard to make the actial device commnection work not sure if it is need
 # with or wihtout this the virtual device set up is working on emulator
-firebase:
-  options:
-    core:
-      emulator: true
-      emulators:
-        firestore: 8080
+# firebase:
+#   options:
+#     core:
+#       emulator: true
+#       emulators:
+#         firestore: 8080
